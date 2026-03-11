@@ -1,9 +1,13 @@
+import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when
 
 spark = SparkSession.builder.appName("LoanRisk").getOrCreate()
 
-df = spark.read.csv("data/loan_applications.csv", header=True, inferSchema=True)
+input_csv = sys.argv[1]
+output_path = sys.argv[2]  # now passed from Airflow
+
+df = spark.read.csv(input_csv, header=True, inferSchema=True)
 
 df = df.withColumn(
     "risk_level",
@@ -12,6 +16,5 @@ df = df.withColumn(
     .otherwise("HIGH")
 )
 
-df.write.mode("overwrite").csv("output/loan_risk_results", header=True)
-
+df.write.mode("overwrite").csv(output_path, header=True)
 spark.stop()
