@@ -1,0 +1,5 @@
+application_id,customer_name,credit_score,income,loan_amount
+1,John,720,90000,25000
+2,Alice,580,40000,20000
+3,Bob,650,60000,15000
+4,Sarah,500,35000,18000
